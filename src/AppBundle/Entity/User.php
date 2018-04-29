@@ -9,7 +9,7 @@ use Symfony\Component\Security\Core\User\AdvancedUserInterface;
 
 /**
  * @ORM\Table(name="user")
- * @ORM\Entity()
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\UserRepository")
  * @UniqueEntity(fields="email", message="Email already taken")
  * @UniqueEntity(fields="username", message="Username already taken")
  */
@@ -26,6 +26,7 @@ class User implements AdvancedUserInterface, \Serializable
      * @ORM\Column(type="string", length=25, unique=true)
      * @Assert\NotBlank()
      * @Assert\Length(max=25)
+     * @Assert\Regex("/^[^@]+$/", message="Your username may not contain the @ character.")
      */
     private $username;
 

@@ -7,7 +7,6 @@ security:
         user_db:
             entity:
                 class: AppBundle:User
-                property: username
 
     encoders:
         AppBundle\Entity\User:

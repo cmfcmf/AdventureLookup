@@ -91,6 +91,8 @@ class RegistrationControllerTest extends WebTestCase
             ['cmfcmf', $tooLongEmail, $password, ['This value is too long.' => 1]],
             // Duplicate username and email
             ['User #1', 'user1@example.com', $password, ['Username already taken' => 1, 'Email already taken' => 1]],
+            // @ character in username
+            ['foo@bar', 'cmfcmf@example.com', $password, ['Your username may not contain the @ character.' => 1]],
         ];
     }
 }
