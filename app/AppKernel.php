@@ -58,7 +58,7 @@ class AppKernel extends Kernel
     {
         $configSuffix = $this->getEnvironment();
         if (getenv('HEROKU')) {
-            $configSuffix = "dev_heroku";
+            $configSuffix = "heroku";
         }
         $loader->load($this->getRootDir().'/config/config_'.$configSuffix.'.yml');
     }
