@@ -4,8 +4,8 @@
     "bonsai:sandbox-6"
   ],
   "buildpacks": [
-    "heroku/nodejs",
-    "heroku/php"
+    { "url": "heroku/nodejs" },
+    { "url": "heroku/php" }
   ],
   "env": {
     "HEROKU": {
