@@ -70,7 +70,9 @@ class RandomAdventureData implements FixtureInterface, ContainerAwareInterface, 
         $reviewCreatedByProperty = (new ReflectionClass(Review::class))->getProperty('createdBy');
         $reviewCreatedByProperty->setAccessible(true);
 
-        for ($i = 0; $i < 200; $i++) {
+        $count = getenv("HEROKU") ? 50 : 200;
+
+        for ($i = 0; $i < $count; $i++) {
             $adventure = new Adventure();
             $adventure
                 ->setTitle($faker->unique->catchPhrase)
@@ -146,7 +148,7 @@ class RandomAdventureData implements FixtureInterface, ContainerAwareInterface, 
             }
 
             $em->persist($adventure);
-            if (getenv("HEROKU") && $i % 5 === 0) {
+            if (getenv("HEROKU") && $i % 10 === 9) {
                 $em->flush();
             }
         }
