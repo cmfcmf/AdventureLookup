@@ -1,6 +1,5 @@
 imports:
     - { resource: config.yml }
-    - { resource: config_heroku.php }
 
 monolog:
     handlers:
@@ -8,3 +7,7 @@ monolog:
             type:  stream
             path:  "php://stderr"
             level: debug
+
+doctrine:
+    dbal:
+        url: "%env(DATABASE_URL)%"
