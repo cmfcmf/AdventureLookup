@@ -22,5 +22,5 @@ npm run prod
 php bin/console doctrine:migrations:migrate -n
 php bin/console app:elasticsearch:reindex -n
 rm -fR var/sessions/prod/*
-rm -f web/config.php web/app_dev.php web/app_test.php
+rm -f web/config.php web/app_dev.php web/app_test.php web/app_dev_heroku.php
 exit 0

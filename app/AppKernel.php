@@ -56,6 +56,10 @@ class AppKernel extends Kernel
 
     public function registerContainerConfiguration(LoaderInterface $loader)
     {
-        $loader->load($this->getRootDir().'/config/config_'.$this->getEnvironment().'.yml');
+        $configSuffix = $this->getEnvironment();
+        if (getenv('HEROKU')) {
+            $configSuffix = "dev_heroku";
+        }
+        $loader->load($this->getRootDir().'/config/config_'.$configSuffix.'.yml');
     }
 }
