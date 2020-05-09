@@ -146,6 +146,9 @@ class RandomAdventureData implements FixtureInterface, ContainerAwareInterface, 
             }
 
             $em->persist($adventure);
+            if (getenv("HEROKU") && $i % 5 === 0) {
+                $em->flush();
+            }
         }
         $em->flush();
     }
