@@ -1,6 +1,9 @@
 imports:
     - { resource: config.yml }
 
+parameters:
+    elasticsearch_host: "%env(BONSAI_URL)%"
+
 monolog:
     handlers:
         nested:
