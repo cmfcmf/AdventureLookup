@@ -1,0 +1,20 @@
+{
+  "addons": [
+    "heroku-postgresql:hobby-dev",
+    "bonsai:sandbox-6"
+  ],
+  "buildpacks": [
+    "heroku/nodejs",
+    "heroku/php"
+  ],
+  "env": {
+    "HEROKU": {
+      "description": "Used to detect running on Heroku",
+      "value": "1"
+    },
+    "SYMFONY_ENV": {
+      "description": "Symfony Environment",
+      "value": "prod"
+    }
+  }
+}
