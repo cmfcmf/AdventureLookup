@@ -7,6 +7,7 @@ $username = $url["user"];
 $password = $url["pass"];
 $db = ltrim($url['path'],'/');
 
+$container->setParameter('database_driver', 'pdo_pgsql');
 $container->setParameter('database_host', $server);
 $container->setParameter('database_port', $port);
 $container->setParameter('database_user', $username);
