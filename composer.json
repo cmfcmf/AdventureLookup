@@ -69,6 +69,8 @@
             "@symfony-scripts"
         ],
         "compile": [
+            "php bin/console doctrine:database:drop --force --if-exists --no-interaction",
+            "php bin/console doctrine:database:create --no-interaction",
             "php bin/console doctrine:schema:create --no-interaction",
             "php bin/console doctrine:fixtures:load --no-interaction --fixtures src/AppBundle/DataFixtures/ORM/RandomAdventureData.php --fixtures src/AppBundle/DataFixtures/ORM/TestUserData.php",
             "php bin/console app:elasticsearch:reindex --no-interaction"
