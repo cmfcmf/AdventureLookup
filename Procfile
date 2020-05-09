@@ -1,1 +1,1 @@
-web: heroku-php-nginx -C scripts/heroku-dev-nginx.conf web/
+web: heroku-php-nginx -C scripts/heroku-nginx.conf web/
