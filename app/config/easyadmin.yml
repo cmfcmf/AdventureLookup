@@ -8,6 +8,8 @@ easy_admin:
             - Adventure
             - ChangeRequest
             - Review
+            - Question
+            - Answer
             - { label: '' }
             - Author
             - Edition
@@ -55,6 +57,28 @@ easy_admin:
                 sort: ['createdAt', 'DESC']
             form:
                 fields: ['rating', 'comment']
+        Question:
+            class: AppBundle\Entity\Question
+            label: 'Questions'
+            list:
+                title: 'Questions'
+                fields: ['id', 'adventure', 'content', 'answers', 'createdBy', 'createdAt']
+                sort: ['createdAt', 'DESC']
+            search:
+                sort: ['createdAt', 'DESC']
+            form:
+                fields: ['content', 'adventure']
+        Answer:
+            class: AppBundle\Entity\Answer
+            label: 'Answers'
+            list:
+                title: 'Answers'
+                fields: ['id', 'question', 'content', 'createdBy', 'createdAt']
+                sort: ['createdAt', 'DESC']
+            search:
+                sort: ['createdAt', 'DESC']
+            form:
+                fields: ['content']
         Author:
             class: AppBundle\Entity\Author
             label: 'Authors'

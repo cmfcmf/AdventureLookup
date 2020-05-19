@@ -236,6 +236,13 @@ class Adventure
     private $reviews;
 
     /**
+     * @var Question[]|Collection
+     *
+     * @ORM\OneToMany(targetEntity="Question", mappedBy="adventure", orphanRemoval=true)
+     */
+    private $questions;
+
+    /**
      * @var string
      *
      * @Gedmo\Blameable(on="create")
@@ -269,6 +276,7 @@ class Adventure
         $this->monsters = new ArrayCollection();
         $this->changeRequests = new ArrayCollection();
         $this->reviews = new ArrayCollection();
+        $this->questions = new ArrayCollection();
 
         $this->approved = false;
     }
@@ -896,6 +904,14 @@ class Adventure
     public function getReviews()
     {
         return $this->reviews;
+    }
+
+    /**
+     * @return Question[]|Collection
+     */
+    public function getQuestions()
+    {
+        return $this->questions;
     }
 
     /**

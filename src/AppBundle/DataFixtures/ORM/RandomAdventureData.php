@@ -4,6 +4,7 @@ namespace AppBundle\DataFixtures\ORM;
 
 
 use AppBundle\Entity\Adventure;
+use AppBundle\Entity\Answer;
 use AppBundle\Entity\Author;
 use AppBundle\Entity\ChangeRequest;
 use AppBundle\Entity\Edition;
@@ -13,6 +14,7 @@ use AppBundle\Entity\Monster;
 use AppBundle\Entity\Publisher;
 use AppBundle\Entity\Review;
 use AppBundle\Entity\Setting;
+use AppBundle\Entity\Question;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Common\DataFixtures\FixtureInterface;
@@ -69,6 +71,12 @@ class RandomAdventureData implements FixtureInterface, ContainerAwareInterface, 
 
         $reviewCreatedByProperty = (new ReflectionClass(Review::class))->getProperty('createdBy');
         $reviewCreatedByProperty->setAccessible(true);
+
+        $questionCreatedByProperty = (new ReflectionClass(Question::class))->getProperty('createdBy');
+        $questionCreatedByProperty->setAccessible(true);
+
+        $answerCreatedByProperty = (new ReflectionClass(Answer::class))->getProperty('createdBy');
+        $answerCreatedByProperty->setAccessible(true);
 
         for ($i = 0; $i < 200; $i++) {
             $adventure = new Adventure();
@@ -129,6 +137,26 @@ class RandomAdventureData implements FixtureInterface, ContainerAwareInterface, 
                     $reviewCreatedByProperty->setValue($review, $j . "-" . $faker->userName);
 
                     $em->persist($review);
+                }
+            }
+
+            if ($faker->boolean(50)) {
+                $n = $faker->numberBetween(1, 20);
+                for ($j = 0; $j < $n; $j++) {
+                    $question = new Question();
+                    $question->setContent($faker->realText($faker->numberBetween(50, 200)));
+                    $question->setAdventure($adventure);
+                    $questionCreatedByProperty->setValue($question, $faker->userName);
+                    $em->persist($question);
+
+                    $nAnswers = $faker->numberBetween(0, 3);
+                    for ($k = 0; $k < $nAnswers; $k++) {
+                        $answer = new Answer();
+                        $answer->setContent($faker->realText($faker->numberBetween(50, 600)));
+                        $answer->setQuestion($question);
+                        $answerCreatedByProperty->setValue($answer, $faker->userName);
+                        $em->persist($answer);
+                    }
                 }
             }
 

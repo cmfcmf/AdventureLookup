@@ -1,0 +1,44 @@
+<div id="review-container" class="mb-4 mt-0">
+    <div class="row">
+        <div class="col">
+            <h3 class="title">Questions and Answers</h3>
+        </div>
+    </div>
+    {% if not app.user %}
+        <div class="alert alert-info">Please sign in to ask or answer a question.</div>
+    {% endif %}
+    {% for question in adventure.questions %}
+        <div class="review">
+            <p>
+                <strong>{{ question.createdBy }}</strong> would like to know:
+            </p>
+            <blockquote>
+                <div class="row">
+                    <div class="col col-auto d-none d-sm-flex">
+                        <i class="fa fa-question fa-3x review-icon"></i>
+                    </div>
+                    <div class="col">
+                        <b>{{ question.content|nl2br }}</b>
+                    </div>
+                </div>
+            </blockquote>
+            <div class="ml-4">
+                {% for answer in question.answers %}
+                    <p>
+                        <strong>{{ answer.createdBy }}</strong> answered:
+                    </p>
+                    <blockquote>
+                        <div class="row">
+                            <div class="col col-auto d-none d-sm-flex">
+                                <i class="fa fa-answer fa-3x review-icon"></i>
+                            </div>
+                            <div class="col">
+                                {{ answer.content|nl2br }}
+                            </div>
+                        </div>
+                    </blockquote>
+                {% endfor %}
+            </div>
+        </div>
+    {% endfor %}
+</div>

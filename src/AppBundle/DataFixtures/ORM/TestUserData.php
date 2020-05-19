@@ -18,9 +18,9 @@ class TestUserData implements FixtureInterface
     {
         // NEVER RUN THIS ON PRODUCTION
         $data = [
-            ['username' => 'user', 'email' => 'user@test.com', 'roles' => ['ROLE_USER']],
-            ['username' => 'curator', 'email' => 'curator@test.com', 'roles' => ['ROLE_CURATOR']],
-            ['username' => 'admin', 'email' => 'admin@test.com', 'roles' => ['ROLE_ADMIN']],
+            ['username' => 'user', 'email' => 'user@example.com', 'roles' => ['ROLE_USER']],
+            ['username' => 'curator', 'email' => 'curator@example.com', 'roles' => ['ROLE_CURATOR']],
+            ['username' => 'admin', 'email' => 'admin@example.com', 'roles' => ['ROLE_ADMIN']],
         ];
 
         foreach ($data as $d) {
