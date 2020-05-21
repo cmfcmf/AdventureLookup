@@ -69,6 +69,7 @@
             "@symfony-scripts"
         ],
         "compile": [
+            "[ \"$HEROKU\" ]",
             "php bin/console doctrine:schema:drop --no-interaction --full-database --force",
             "php bin/console doctrine:schema:create --no-interaction",
             "php bin/console doctrine:fixtures:load --no-interaction --fixtures src/AppBundle/DataFixtures/ORM/RandomAdventureData.php --fixtures src/AppBundle/DataFixtures/ORM/TestUserData.php",
