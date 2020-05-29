@@ -73,8 +73,9 @@ class AdventureVoter extends Voter
             case self::CREATE:
                 return $this->canCreate($subject, $token, $user);
             case self::EDIT:
+                return $this->canEdit($subject, $token, $user);
             case self::DELETE:
-                return $this->canEditAndDelete($subject, $token, $user);
+                return $this->canDelete($subject, $token, $user);
         }
 
         throw new \LogicException('This code should not be reached!');
@@ -94,17 +95,39 @@ class AdventureVoter extends Voter
     }
 
     /**
-     * Curators can edit and delete all adventures.
-     * Normal users can only edit and delete own adventures.
+     * Curators can edit all adventures.
+     * Normal users can only edit own adventures.
      *
      * @param Adventure $adventure
      * @param TokenInterface $token
      * @param User $user
      * @return bool
      */
-    private function canEditAndDelete(Adventure $adventure, TokenInterface $token, User $user)
+    private function canEdit(Adventure $adventure, TokenInterface $token, User $user)
     {
         if ($this->decisionManager->decide($token, ['ROLE_CURATOR'])) {
+            return true;
+        }
+
+        if ($adventure->getCreatedBy() === $user->getUsername()) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Admins can delete all adventures.
+     * Normal users can only delete own adventures.
+     *
+     * @param Adventure $adventure
+     * @param TokenInterface $token
+     * @param User $user
+     * @return bool
+     */
+    private function canDelete(Adventure $adventure, TokenInterface $token, User $user)
+    {
+        if ($this->decisionManager->decide($token, ['ROLE_ADMIN'])) {
             return true;
         }
 

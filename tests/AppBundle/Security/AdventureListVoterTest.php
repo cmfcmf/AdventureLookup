@@ -97,15 +97,11 @@ class AdventureListVoterTest extends VoterTest
 
     public function otherAttributesDataProvider()
     {
-        $userId = 1;
-
-        $myself = $this->createMock(User::class);
-        $myself->method('getId')->willReturn($userId++);
+        $myself = $this->createUser(1, ['ROLE_USER']);
         $myAdventureList = $this->createMock(AdventureList::class);
         $myAdventureList->method('getUser')->willReturn($myself);
 
-        $you = $this->createMock(User::class);
-        $you->method('getId')->willReturn($userId++);
+        $you = $this->createUser(2, ['ROLE_USER']);
         $yourAdventureList = $this->createMock(AdventureList::class);
         $yourAdventureList->method('getUser')->willReturn($you);
 

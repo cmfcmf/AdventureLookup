@@ -13,6 +13,8 @@ security:
         AppBundle\Entity\User:
             algorithm: bcrypt
 
+    # Important: Whenever you update the role hierarchy here, make sure to also update the
+    # hierarchy in VoterTest.php!
     role_hierarchy:
         ROLE_CURATOR: ROLE_USER
         ROLE_ADMIN:  [ROLE_CURATOR, ROLE_ALLOWED_TO_SWITCH]
