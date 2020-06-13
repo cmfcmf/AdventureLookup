@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -72,6 +73,21 @@ class User implements AdvancedUserInterface, \Serializable
     private $roles;
 
     /**
+     * @var \DateTime
+     *
+     * @Gedmo\Timestampable(on="create")
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $registeredAt;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $lastLoginAt;
+
+    /**
      * @Assert\Length(max=72)
      */
     private $plainPassword;
@@ -80,6 +96,7 @@ class User implements AdvancedUserInterface, \Serializable
     {
         $this->roles = ['ROLE_USER'];
         $this->isActive = true;
+        $this->registeredAt = new \DateTime('now');
     }
 
     public function __toString(): string
@@ -309,5 +326,20 @@ class User implements AdvancedUserInterface, \Serializable
     public function setRoles(array $roles)
     {
         $this->roles = $roles;
+    }
+
+    public function getLastLoginAt(): ?\DateTimeInterface
+    {
+        return $this->lastLoginAt;
+    }
+
+    public function setLastLoginAt(\DateTimeInterface $date): void
+    {
+        $this->lastLoginAt = $date;
+    }
+
+    public function getRegisteredAt(): ?\DateTimeInterface
+    {
+        return $this->registeredAt;
     }
 }

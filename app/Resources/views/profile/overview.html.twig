@@ -4,9 +4,11 @@
     <div class="title">Profile Overview</div>
     <div class="content">
         <p>
-            Your username is <em>{{ app.user.username }}</em><br/>
-            Your email address is <em>{{ app.user.email }}</em><br/>
-            You currently have the following roles: <em>{{ format_roles(app.user) }}</em><br/>
+            Username: <em>{{ app.user.username }}</em><br/>
+            Email address: <em>{{ app.user.email }}</em><br/>
+            Last login: <em>{{ app.user.lastLoginAt ? app.user.lastLoginAt|date : 'Unknown' }}</em><br/>
+            Registration date: <em>{{ app.user.registeredAt ? app.user.registeredAt|date : 'Unknown' }}</em><br/>
+            Permissions: <em>{{ format_roles(app.user) }}</em><br/>
         </p>
         <ul class="nav nav-tabs" role="tablist">
             <li class="nav-item" role="presentation">

@@ -42,6 +42,10 @@ services:
         tags:
             - { name: kernel.event_listener, event: kernel.exception, priority: 999 }
 
+    AppBundle\Listener\OnLoginListener:
+        tags:
+            - { name: kernel.event_listener, event: security.interactive_login }
+
     # TODO: Remove this service once we update to Symfony 4.1
     # and set the $cache argument of the AppBundle\Twig\AppExtension
     # to '@cache.app.simple'
