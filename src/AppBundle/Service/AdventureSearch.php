@@ -214,7 +214,7 @@ class AdventureSearch
 
         // First generate ES search query from free-text searchbar at the top.
         // This will only search string and text fields.
-        $matches = $this->qMatches($q, $matches);
+        [$matches, $parsedQuery] = $this->qMatches($q, $matches);
 
         // Now apply filters from the sidebar.
         $matches = $this->filterMatches($filters, $matches);
@@ -333,7 +333,7 @@ class AdventureSearch
 
         $stats = $this->formatAggregations($result['aggregations']);
 
-        return [$adventureDocuments, $totalResults, $hasMoreResults, $stats];
+        return [$adventureDocuments, $totalResults, $hasMoreResults, $stats, $parsedQuery];
     }
 
     public function similarTitles($title): array
@@ -563,12 +563,12 @@ class AdventureSearch
             ->map(fn (Field $field) => $field->getName().'^'.$field->getSearchBoost())
             ->getValues();
 
-        $result = QueryParser::parse($q, $fields);
-        if (null !== $result) {
-            $matches[] = $result;
+        [$match, $clause] = QueryParser::parse($q, $fields);
+        if (null !== $match) {
+            $matches[] = $match;
         }
 
-        return $matches;
+        return [$matches, $clause];
     }
 
     private function filterMatches(array $filters, array $matches): array

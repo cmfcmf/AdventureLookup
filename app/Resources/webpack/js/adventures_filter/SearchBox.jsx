@@ -14,6 +14,7 @@ const sortByOptions = [
 
 export function SearchBox({
   query,
+  initialParsedQuery,
   onQueryChanged,
   sortBy,
   onSortByChanged,
@@ -93,7 +94,7 @@ export function SearchBox({
           </div>
         </div>
       </div>
-      <SearchTips />
+      <SearchTips initialParsedQuery={initialParsedQuery} />
     </>
   );
 }
