@@ -5,12 +5,16 @@
     <div id="lrf-container">
         <div id="lrf">
             <div class="title">{% block error_title %}Oops! An Error Occurred{% endblock %}</div>
-            <h4>The server returned "{{ status_code }} {{ status_text }}".</h4>
             <div class="alert alert-warning">
                 {% block error_description %}
-                    Something is broken. Please let us know what you were doing when this error occurred.
-                    We will fix it as soon as possible. Sorry for any inconvenience caused.
+                    Something is broken on our end.
+                    This should not have happened.
+                    Please let us know what you were doing when this error occurred.
+                    The best way to get in touch is via GitHub, Reddit or Discord (links below).
+                    We are sorry for any inconvenience caused by this issue.
                 {% endblock %}
+                <hr />
+                The server returned "{{ status_code }} {{ status_text }}".
             </div>
         </div>
     </div>
