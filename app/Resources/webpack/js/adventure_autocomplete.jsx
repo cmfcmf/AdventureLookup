@@ -8,18 +8,20 @@ export function render(
   root,
   autocompleteInputs,
   autocompleteSelects,
+  addNewEntryModals,
   searchUrl
 ) {
   ReactDOM.render(
     <Autocomplete
       elements={[...autocompleteInputs, ...autocompleteSelects]}
+      addNewEntryModals={addNewEntryModals}
       searchUrl={searchUrl}
     />,
     root
   );
 }
 
-function Autocomplete({ elements, searchUrl }) {
+function Autocomplete({ elements, searchUrl, addNewEntryModals }) {
   return elements.map((element) => {
     const fieldName = element.id.split("_").pop();
     const allowMultiple = element.tagName === "SELECT" && element.multiple;
@@ -56,6 +58,7 @@ function Autocomplete({ elements, searchUrl }) {
         allowCreate={allowCreate}
         defaultValue={defaultValue}
         element={element}
+        onCreate={addNewEntryModals[fieldName]}
       />,
       container,
       fieldName
@@ -70,10 +73,19 @@ const AutocompleteSelect = React.memo(function ({
   allowCreate,
   defaultValue,
   element,
+  onCreate,
 }) {
   const [value, setValue] = React.useState(defaultValue);
 
-  const onChange = React.useCallback((options) => {
+  const onChange = React.useCallback((options, meta) => {
+    console.log(meta);
+    if (allowCreate && allowMultiple && meta.action === "select-option" && meta.option.__isNew__) {
+      onCreate(meta.option.value, (newOption) => {
+        setValue(options => [...options, newOption])
+      });
+      return;
+    }
+
     setValue(options);
     if (element.tagName === "SELECT") {
       for (const option of element.options) {

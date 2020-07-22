@@ -40,16 +40,6 @@ import { render } from "./adventure_autocomplete";
     }, DEBOUNCE)
   );
 
-  const autocompleteInputs = $("input[data-autocomplete]");
-  const autocompleteSelects = $('select[name^="appbundle_adventure"]');
-  const reactRoot = $page[0].appendChild(document.createElement("div"));
-  render(
-    reactRoot,
-    autocompleteInputs.toArray(),
-    autocompleteSelects.toArray(),
-    searchUrl
-  );
-
   // Iterate through all new entity fields and gather the maximum new field index.
   const $newEntityNames = $(
     'input[id^="appbundle_adventure_"][id$="_name"]'
@@ -67,15 +57,18 @@ import { render } from "./adventure_autocomplete";
       ? 0
       : Math.max.apply(null, newEntityFieldIndices) + 1;
 
+  const addNewEntryModals = {};
+
   $('select[name^="appbundle_adventure"]').each(function () {
     const $select = $(this);
     const fieldName = $select.attr("id").split("_").pop();
 
-    let createNewItemCallback = false;
     if ($select.data("allow-add")) {
-      createNewItemCallback = function (query, callback) {
+      addNewEntryModals[fieldName] = function (query, callback) {
         // Check for existing selected options in select input
+
         let existingOptionWithSameName = null;
+        /*
         const existingOptions = $select[0].selectize.options;
         Object.keys(existingOptions).forEach(function (key) {
           let option = existingOptions[key];
@@ -88,6 +81,8 @@ import { render } from "./adventure_autocomplete";
           alert("An entity with the same name already exists.");
           return;
         }
+        */
+
         // Check for existing new entities on the page
         $(
           'input[id^="appbundle_adventure_' + fieldName + '-new_"][id$="_name"]'
@@ -115,7 +110,6 @@ import { render } from "./adventure_autocomplete";
           .replace(/__name__/g, ++newFieldIndex)
           .replace(/__label__/g, "");
         $modalForm.html(prototype);
-        $modalForm.find("select").selectize();
 
         // Set name attribute
         const $nameInput = $(
@@ -127,7 +121,7 @@ import { render } from "./adventure_autocomplete";
         const addBtnClickHandler = () => {
           $modalAddBtn.attr("disabled", true);
           $modalForm.children().addClass("d-none").appendTo($newEntities);
-          callback({ title: query, value: "n" + query });
+          callback({ label: query, value: "n" + query });
           $modal.modal("hide");
         };
         $modalAddBtn.one("click", addBtnClickHandler);
@@ -144,11 +138,22 @@ import { render } from "./adventure_autocomplete";
           // handler would trigger twice when opening the modal the next time.
           $modalAddBtn.off("click", addBtnClickHandler);
           $modalForm.children().empty();
-          selectized.focus();
+          // selectized.focus();
         });
 
         $modal.modal("show");
       };
     }
   });
+
+  const autocompleteInputs = $("input[data-autocomplete]");
+  const autocompleteSelects = $('select[name^="appbundle_adventure"]');
+  const reactRoot = $page[0].appendChild(document.createElement("div"));
+  render(
+    reactRoot,
+    autocompleteInputs.toArray(),
+    autocompleteSelects.toArray(),
+    addNewEntryModals,
+    searchUrl
+  );
 })();
