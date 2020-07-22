@@ -1,0 +1,42 @@
+parameters:
+  fields:
+
+    # <field name>:
+    #   title: ~
+    #   description: ~
+    #   # string, text, integer, boolean, url
+    #   type: ~
+    #   # Can an adventure have multiple of this field?
+    #   multiple: false
+    #   # <Are search terms entered into the search bar matched with this field?
+    #   freetextSearchable: ~
+    #   # Boost term occurrences found in this field during freetext search by factor X
+    #   freetextSearchBoost: 1
+    #   # Is this field available as a filter in the search filter sidebar?
+    #   availableAsFilter: false
+    #   # Is this field required when adding a new adventure?
+    #   required: false
+
+    title:
+      title: Title
+      description: The title of the adventure.
+      type: string
+      freetextSearchable: true
+      freetextSearchBoost: 10
+      availableAsFilter: false
+      required: true
+
+    description:
+      title: Description
+      description: Description of the adventure.
+      freetextSearchable: true
+      freetextSearchBoost: 5
+      availableAsFilter: false
+
+    authors:
+      title: Authors
+      description: Names of people with writing or story credits on the adventure. Do not include editors or designers.
+      type: string
+      multiple: true
+      freetextSearchable: true
+      availableAsFilter: true

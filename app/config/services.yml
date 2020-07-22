@@ -18,6 +18,9 @@ services:
     Elasticsearch\ClientBuilder:
         factory: ['Elasticsearch\ClientBuilder', 'create']
 
+    AppBundle\Field\FieldProvider:
+        arguments: ['%fields%']
+
     AppBundle\Service\ElasticSearch:
         arguments:
             $host: "%elasticsearch_host%"

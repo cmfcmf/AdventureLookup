@@ -19,7 +19,7 @@ class FieldProvider
      */
     private $fields;
 
-    public function __construct()
+    public function __construct(array $fields)
     {
         $this->fields = new ArrayCollection([
             'title' => new Field(
