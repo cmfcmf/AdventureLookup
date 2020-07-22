@@ -1,6 +1,9 @@
 // Returns a function, that, as long as it continues to be invoked, will not
 // be triggered. The function will be called after it stops being called for
 // N milliseconds. If `immediate` is passed, trigger the function on the
+
+const { render } = require("./adventure_autocomplete");
+
 // leading edge, instead of the trailing.
 function debounce(func, wait, immediate) {
   let timeout;
@@ -59,37 +62,15 @@ function debounce(func, wait, immediate) {
     }, DEBOUNCE)
   );
 
-  $("input[data-autocomplete]").each(function () {
-    const $field = $(this);
-    const fieldName = $field.attr("id").split("_").pop();
-    $field.selectize({
-      create: true,
-      valueField: "title",
-      labelField: "title",
-      searchField: "title",
-      maxItems: 1,
-      preload: "focus",
-      load: function (query, callback) {
-        $.ajax({
-          url: searchUrl.replace(/__FIELD__/g, fieldName),
-          data: {
-            q: query,
-          },
-          type: "GET",
-          error: function () {
-            callback();
-          },
-          success: function (res) {
-            callback(
-              res.map((content) => {
-                return { title: content };
-              })
-            );
-          },
-        });
-      },
-    });
-  });
+  const autocompleteInputs = $("input[data-autocomplete]");
+  const autocompleteSelects = $('select[name^="appbundle_adventure"]');
+  const reactRoot = $page[0].appendChild(document.createElement("div"));
+  render(
+    reactRoot,
+    autocompleteInputs.toArray(),
+    autocompleteSelects.toArray(),
+    searchUrl
+  );
 
   // Iterate through all new entity fields and gather the maximum new field index.
   const $newEntityNames = $(
@@ -191,39 +172,5 @@ function debounce(func, wait, immediate) {
         $modal.modal("show");
       };
     }
-
-    const selectized = $select.selectize({
-      create: createNewItemCallback,
-      //sortField: 'title',
-      //valueField: 'title',
-      labelField: "title",
-      maxItems: $select.attr("multiple") ? null : 1,
-      preload: "focus",
-      searchField: "title",
-      render: {
-        option: function (item, escape) {
-          return "<div>" + escape(item.title) + "</div>";
-        },
-      },
-      load: function (query, callback) {
-        $.ajax({
-          url: searchUrl.replace(/__FIELD__/g, fieldName),
-          data: {
-            q: query,
-          },
-          type: "GET",
-          error: function () {
-            callback();
-          },
-          success: function (res) {
-            callback(
-              res.map((content) => {
-                return { title: content };
-              })
-            );
-          },
-        });
-      },
-    })[0].selectize;
   });
 })();

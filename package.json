@@ -11,29 +11,29 @@
   },
   "dependencies": {
     "autosize": "^4.0.2",
-    "bootstrap": "^4.4.1",
+    "bootstrap": "^4.5.0",
     "cookieconsent": "^3.1.1",
     "font-awesome": "^4.7.0",
     "jquery": "^3.5.1",
-    "match-sorter": "^4.1.0",
+    "match-sorter": "^4.2.0",
     "popper.js": "^1.16.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
-    "selectize": "^0.12.6",
+    "react-select": "^3.1.0",
     "toastr": "^2.1.4",
     "vanilla-lazyload": "^8.17.0"
   },
   "devDependencies": {
-    "@babel/preset-react": "^7.9.4",
-    "@symfony/webpack-encore": "^0.28.2",
-    "autoprefixer": "^9.7.4",
+    "@babel/preset-react": "^7.10.4",
+    "@symfony/webpack-encore": "^0.30.2",
+    "autoprefixer": "^9.8.5",
     "husky": "^4.2.5",
-    "less": "^3.10.3",
-    "lint-staged": "^10.2.2",
-    "node-sass": "^4.13.1",
+    "less": "^3.12.2",
+    "lint-staged": "^10.2.11",
+    "node-sass": "^4.14.1",
     "postcss-loader": "^3.0.0",
     "prettier": "^2.0.5",
-    "sass-loader": "^7.3.1"
+    "sass-loader": "^8.0.2"
   },
   "husky": {
     "hooks": {

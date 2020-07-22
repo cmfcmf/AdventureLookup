@@ -6,5 +6,4 @@ import "bootstrap";
 // <link rel="stylesheet" href="{{ asset('assets/vendor.css') }}" />
 //import 'bootstrap/scss/bootstrap';
 import "toastr";
-import "selectize";
 import "vanilla-lazyload";

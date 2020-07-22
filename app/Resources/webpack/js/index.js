@@ -1,6 +1,5 @@
 import "jquery/src/jquery";
 import "bootstrap/dist/js/bootstrap.js";
-import "selectize/dist/js/standalone/selectize";
 import autosize from "autosize";
 import toastr from "toastr/toastr";
 import "../sass/style.scss";
