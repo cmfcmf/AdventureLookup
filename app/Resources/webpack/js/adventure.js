@@ -1,3 +1,5 @@
+import "select2/dist/js/select2.full";
+
 // Returns a function, that, as long as it continues to be invoked, will not
 // be triggered. The function will be called after it stops being called for
 // N milliseconds. If `immediate` is passed, trigger the function on the
@@ -59,36 +61,64 @@ function debounce(func, wait, immediate) {
     }, DEBOUNCE)
   );
 
+  const select2DefaultOptions = (fieldName) => ({
+    allowClear: true,
+    closeOnSelect: true,
+    placeholder: "",
+
+    // Allow creation of new options
+    tags: true,
+    createTag: function (params) {
+      var term = $.trim(params.term);
+
+      if (term === "") {
+        return null;
+      }
+
+      return {
+        id: term,
+        text: term,
+        newTag: true,
+      };
+    },
+    templateResult: (result) => {
+      return result.newTag ? `Create new entry: ${result.text}` : result.text;
+    },
+  });
+
   $("input[data-autocomplete]").each(function () {
     const $field = $(this);
     const fieldName = $field.attr("id").split("_").pop();
-    $field.selectize({
-      create: true,
-      valueField: "title",
-      labelField: "title",
-      searchField: "title",
-      maxItems: 1,
-      preload: "focus",
-      load: function (query, callback) {
-        $.ajax({
+    const $select = $('<select class="form-control"></select>');
+    $select.insertAfter($field);
+    //$field.hide();
+    $select
+      .select2({
+        ...select2DefaultOptions(fieldName),
+        tags: true,
+        multiple: false,
+
+        ajax: {
           url: searchUrl.replace(/__FIELD__/g, fieldName),
-          data: {
-            q: query,
-          },
+          data: (params) => ({ q: params.term ?? "" }),
+          delay: 250,
+          dataType: "json",
           type: "GET",
-          error: function () {
-            callback();
+          processResults: (data) => {
+            return {
+              results: data.map((entry) => ({
+                id: entry,
+                text: entry,
+              })),
+              pagination: {
+                more: false,
+              },
+            };
           },
-          success: function (res) {
-            callback(
-              res.map((content) => {
-                return { title: content };
-              })
-            );
-          },
-        });
-      },
-    });
+        },
+      })
+      .on("select2:select", (e) => $field.val(e.params.data.id))
+      .on("select2:unselect", () => $field.val(""));
   });
 
   // Iterate through all new entity fields and gather the maximum new field index.
@@ -192,38 +222,10 @@ function debounce(func, wait, immediate) {
       };
     }
 
-    const selectized = $select.selectize({
-      create: createNewItemCallback,
-      //sortField: 'title',
-      //valueField: 'title',
-      labelField: "title",
-      maxItems: $select.attr("multiple") ? null : 1,
-      preload: "focus",
-      searchField: "title",
-      render: {
-        option: function (item, escape) {
-          return "<div>" + escape(item.title) + "</div>";
-        },
-      },
-      load: function (query, callback) {
-        $.ajax({
-          url: searchUrl.replace(/__FIELD__/g, fieldName),
-          data: {
-            q: query,
-          },
-          type: "GET",
-          error: function () {
-            callback();
-          },
-          success: function (res) {
-            callback(
-              res.map((content) => {
-                return { title: content };
-              })
-            );
-          },
-        });
-      },
-    })[0].selectize;
+    $select.select2({
+      ...select2DefaultOptions(fieldName),
+      multiple: !!$select.attr("multiple"),
+      tags: !!$select.data("allow-add"),
+    });
   });
 })();
